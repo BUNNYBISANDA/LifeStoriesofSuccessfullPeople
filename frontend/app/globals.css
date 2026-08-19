@@ -73,7 +73,10 @@
   --chart-3: oklch(0.5 0.08 200);
   --chart-4: oklch(0.65 0.09 130);
   --chart-5: oklch(0.45 0.1 300);
-  --radius: 0.4rem;
+  --radius: 0.55rem;
+  --shadow-cozy: 0 1px 2px oklch(0.3 0.06 40 / 6%), 0 6px 16px -4px oklch(0.35 0.08 40 / 16%);
+  --shadow-cozy-lg: 0 2px 4px oklch(0.3 0.06 40 / 8%), 0 12px 28px -6px oklch(0.35 0.09 40 / 22%);
+  --glow-candle: oklch(0.85 0.1 75 / 35%);
   --sidebar: oklch(0.95 0.016 78);
   --sidebar-foreground: oklch(0.28 0.035 45);
   --sidebar-primary: oklch(0.33 0.11 25);
@@ -85,6 +88,9 @@
 }
 
 .dark {
+  --shadow-cozy: 0 1px 2px oklch(0 0 0 / 30%), 0 6px 18px -4px oklch(0 0 0 / 45%);
+  --shadow-cozy-lg: 0 2px 4px oklch(0 0 0 / 35%), 0 14px 32px -6px oklch(0 0 0 / 55%);
+  --glow-candle: oklch(0.78 0.1 78 / 22%);
   /* Library-at-night: espresso walls, warm brass light */
   --background: oklch(0.19 0.018 50);
   --foreground: oklch(0.92 0.018 75);
@@ -154,5 +160,29 @@
     font-weight: 600;
     padding-right: 0.08em;
     padding-top: 0.03em;
+  }
+
+  /* Cozy touches: soft warm-tinted shadows (instead of flat gray ones) so
+     cards read like they're sitting under lamplight, not a fluorescent
+     office ceiling. */
+  .shadow-cozy {
+    box-shadow: var(--shadow-cozy);
+  }
+  .shadow-cozy-lg {
+    box-shadow: var(--shadow-cozy-lg);
+  }
+
+  /* A soft candlelit glow for hero/quote moments — warm, diffuse, low-key. */
+  .glow-candle {
+    position: relative;
+  }
+  .glow-candle::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    z-index: -1;
+    background: radial-gradient(closest-side, var(--glow-candle), transparent 70%);
+    filter: blur(20px);
+    pointer-events: none;
   }
 }

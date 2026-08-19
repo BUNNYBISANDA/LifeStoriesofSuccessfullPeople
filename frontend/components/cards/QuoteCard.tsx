@@ -3,7 +3,7 @@ import type { Quote } from "@/types";
 
 export function QuoteCard({ quote }: { quote: Quote }) {
   return (
-    <blockquote className="relative rounded-sm border border-border/70 bg-card px-8 py-8 text-center shadow-sm">
+    <blockquote className="glow-candle relative rounded-lg border border-border/70 bg-card px-8 py-8 text-center shadow-cozy">
       <QuoteMark
         className="mx-auto mb-3 size-6 text-accent-foreground/40"
         strokeWidth={1.5}

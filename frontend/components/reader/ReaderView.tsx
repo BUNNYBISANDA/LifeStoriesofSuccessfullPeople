@@ -43,7 +43,7 @@ export function ReaderView({ chapter }: { chapter: ChapterDetail }) {
 
   return (
     <div className="bg-secondary/40 py-10">
-      <article className="mx-auto max-w-2xl rounded-sm border border-border/60 bg-card px-6 py-10 shadow-sm sm:px-12">
+      <article className="mx-auto max-w-2xl rounded-lg border border-border/60 bg-card px-6 py-10 shadow-cozy-lg sm:px-12">
         <div className="mb-6 flex items-center justify-between gap-4">
           <Progress value={progress?.percentComplete ?? percentComplete} className="h-1.5" />
           <Button variant="outline" size="sm" onClick={toggleBookmark}>

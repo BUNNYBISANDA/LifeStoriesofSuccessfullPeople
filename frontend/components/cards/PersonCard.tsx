@@ -7,7 +7,7 @@ import type { Person } from "@/types";
 export function PersonCard({ person }: { person: Person }) {
   return (
     <Link href={`/library/${person.slug}`} className="group">
-      <Card className="h-full overflow-hidden py-0 shadow-sm ring-border/60 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
+      <Card className="h-full overflow-hidden py-0 shadow-cozy ring-border/60 transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-cozy-lg">
         {person.imageUrl ? (
           <div className="relative aspect-[3/4] w-full overflow-hidden bg-muted">
             <Image

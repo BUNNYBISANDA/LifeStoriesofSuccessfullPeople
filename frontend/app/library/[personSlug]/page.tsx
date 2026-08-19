@@ -18,7 +18,7 @@ export default async function PersonPage({ params }: PageProps<"/library/[person
     <div className="mx-auto max-w-3xl px-4 py-12">
       <div className="mb-10 flex flex-col gap-6 sm:flex-row sm:items-start">
         {person.imageUrl ? (
-          <div className="relative aspect-[3/4] w-32 shrink-0 overflow-hidden rounded-sm shadow-md ring-1 ring-border/60 sm:w-40">
+          <div className="relative aspect-[3/4] w-32 shrink-0 overflow-hidden rounded-lg shadow-cozy-lg ring-1 ring-border/60 sm:w-40">
             <Image
               src={person.imageUrl}
               alt={person.name}
@@ -52,7 +52,7 @@ export default async function PersonPage({ params }: PageProps<"/library/[person
       <div className="space-y-3">
         {chapters.map((chapter) => (
           <Link key={chapter.id} href={`/chapters/${chapter.slug}`}>
-            <Card className="transition-all hover:-translate-y-0.5 hover:shadow-md">
+            <Card className="transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-cozy-lg">
               <CardHeader>
                 <CardTitle className="text-lg">{chapter.title}</CardTitle>
               </CardHeader>

@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
-      <section className="mb-16 text-center">
+      <section className="glow-candle mb-16 text-center">
         <p className="mb-3 text-xs tracking-[0.2em] text-muted-foreground uppercase">
           A reading room for hard-won lessons
         </p>
