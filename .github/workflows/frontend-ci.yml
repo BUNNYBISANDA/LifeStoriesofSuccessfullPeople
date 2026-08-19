@@ -39,8 +39,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Type check
-        run: npx tsc --noEmit
-
+      # `next build` runs its own full TypeScript check as part of the build,
+      # including the Next.js-generated PageProps/LayoutProps globals that
+      # don't exist until a build has run once — a separate `tsc --noEmit`
+      # step here would fail on a fresh checkout for that reason.
       - name: Build
         run: npm run build
