@@ -23,8 +23,18 @@ export function useBookmarks() {
   }, [user]);
 
   useEffect(() => {
-    refresh();
-  }, [refresh]);
+    if (!user) {
+      queueMicrotask(() => {
+        setBookmarks([]);
+        setLoading(false);
+      });
+      return;
+    }
+    queueMicrotask(() => setLoading(true));
+    getBookmarks()
+      .then(setBookmarks)
+      .finally(() => setLoading(false));
+  }, [user]);
 
   const add = useCallback(
     async (chapterId: string) => {

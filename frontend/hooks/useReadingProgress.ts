@@ -12,11 +12,13 @@ export function useReadingProgress(chapterId: string) {
 
   useEffect(() => {
     if (!user) {
-      setProgress(null);
-      setLoading(false);
+      queueMicrotask(() => {
+        setProgress(null);
+        setLoading(false);
+      });
       return;
     }
-    setLoading(true);
+    queueMicrotask(() => setLoading(true));
     getProgressForChapter(chapterId)
       .then(setProgress)
       .catch(() => setProgress(null))
