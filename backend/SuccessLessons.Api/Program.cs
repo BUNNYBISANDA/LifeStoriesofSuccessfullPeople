@@ -19,6 +19,15 @@ if (!string.IsNullOrEmpty(firebaseCredentialsJson))
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Sentry.AspNetCore requires an explicit empty string to disable itself —
+// an absent/null Dsn throws at startup instead of no-op'ing (e.g. local dev
+// where SENTRY_DSN isn't set).
+builder.WebHost.UseSentry(options =>
+{
+    options.Dsn = Environment.GetEnvironmentVariable("SENTRY_DSN") ?? "";
+    options.TracesSampleRate = 0.2;
+});
+
 // Render (and most container hosts) assign the listen port via $PORT at runtime.
 var port = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrEmpty(port))
