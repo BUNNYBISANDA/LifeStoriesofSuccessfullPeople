@@ -1,0 +1,12 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "Firebase": {
+    "ProjectId": "your-firebase-project-id",
+    "CredentialsPath": "secrets/firebase-service-account.json"
+  }
+}

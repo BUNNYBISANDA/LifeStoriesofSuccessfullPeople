@@ -1,0 +1,33 @@
+# --- Frontend (Next.js) ---
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env*.local
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# --- Backend (.NET) ---
+backend/**/bin/
+backend/**/obj/
+backend/**/*.user
+backend/**/appsettings.*.local.json
+backend/**/appsettings.Development.json
+
+# --- Firebase secrets ---
+**/firebase-service-account*.json
+**/*firebase-adminsdk*.json
+
+# --- Data pipeline ---
+data-pipeline/venv/
+data-pipeline/__pycache__/
+data-pipeline/output/*.json
+
+# --- OS / editor ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.claude/
+
+# --- Source PDF (personal/copyrighted content, not meant for a public repo) ---
+*.pdf

@@ -1,0 +1,49 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Public read-only content — written only by the backend (Admin SDK bypasses rules).
+    match /people/{personId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /chapters/{chapterId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /lessons/{lessonId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /quotes/{quoteId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // User-owned data — clients may read their own records but all writes
+    // go through the .NET API (Admin SDK), which bypasses these rules.
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+
+    match /bookmarks/{bookmarkId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
+
+    match /readingProgress/{progressId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
+
+    match /highlights/{highlightId} {
+      allow read: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow write: if false;
+    }
+  }
+}
