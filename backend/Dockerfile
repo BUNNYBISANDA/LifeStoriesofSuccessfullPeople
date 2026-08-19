@@ -9,4 +9,8 @@ WORKDIR /app
 COPY --from=build /app .
 
 ENV ASPNETCORE_ENVIRONMENT=Production
+# Avoids loading native ICU for globalization — a known cause of segfaults
+# in syscall-restricted containers, and unneeded for a JSON API with no
+# culture-specific formatting.
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 ENTRYPOINT ["dotnet", "SuccessLessons.Api.dll"]
