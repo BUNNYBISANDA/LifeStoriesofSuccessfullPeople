@@ -1,11 +1,30 @@
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.HttpOverrides;
 using SuccessLessons.Api.Config;
 using SuccessLessons.Api.Middleware;
 using SuccessLessons.Api.Services;
 
+// Cloud hosts (Render, etc.) can't easily mount a credentials file — let the
+// service account key be supplied as a raw JSON env var instead, written to a
+// temp file so the existing CredentialsPath-based code paths keep working.
+var firebaseCredentialsJson = Environment.GetEnvironmentVariable("FIREBASE_CREDENTIALS_JSON");
+if (!string.IsNullOrEmpty(firebaseCredentialsJson))
+{
+    var tempCredentialsPath = Path.Combine(Path.GetTempPath(), "firebase-service-account.json");
+    File.WriteAllText(tempCredentialsPath, firebaseCredentialsJson);
+    Environment.SetEnvironmentVariable("Firebase__CredentialsPath", tempCredentialsPath);
+}
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Render (and most container hosts) assign the listen port via $PORT at runtime.
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 
 // --- Firebase Admin SDK ---
 var firebaseConfig = builder.Configuration.GetSection(FirebaseOptions.SectionName).Get<FirebaseOptions>()
@@ -48,7 +67,9 @@ var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(CorsPolicy, policy =>
-        policy.WithOrigins(allowedOrigins)
+        policy.SetIsOriginAllowed(origin =>
+                  allowedOrigins.Contains(origin) ||
+                  Uri.TryCreate(origin, UriKind.Absolute, out var uri) && uri.Host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase))
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -65,6 +86,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 app.UseHttpsRedirection();
 
 app.UseCors(CorsPolicy);
